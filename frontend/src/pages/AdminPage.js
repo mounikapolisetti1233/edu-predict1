@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { adminAPI, studentsAPI } from "../api/api";
 import { useToast } from "../context/ToastContext";
 import { useAuth } from "../context/AuthContext";
@@ -409,7 +409,11 @@ export default function AdminPage() {
   // FETCH ADMIN DATA
   // ====================================================
 
-  const fetchData = async () => {
+    // ====================================================
+  // FETCH ADMIN DATA
+  // ====================================================
+
+  const fetchData = useCallback(async () => {
     setLoading(true);
 
     try {
@@ -439,12 +443,11 @@ export default function AdminPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [toast]);
 
   useEffect(() => {
     fetchData();
-  }, []);
-
+  }, [fetchData]);
   // ====================================================
   // LOGOUT
   // ====================================================
